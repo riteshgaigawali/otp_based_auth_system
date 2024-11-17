@@ -11,10 +11,10 @@ import lombok.Setter;
 @Configuration
 public class TwilioConfiguration {
 
-    private String accountSid = "AC928abb9a35cb79e5944f714d0052d189";
+    private String accountSid = "";
 
-    private String authToken = "41b4b0f07141c0666b19a8d758a6af9f";
+    private String authToken = "";
 
-    private String fromPhoneNumber = "+17069404038";
+    private String fromPhoneNumber = "";
 
 }
