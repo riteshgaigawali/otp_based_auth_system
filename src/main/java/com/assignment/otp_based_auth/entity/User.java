@@ -1,3 +1,4 @@
+// Table to store the user details and deviceFingerprint.
 package com.assignment.otp_based_auth.entity;
 
 import java.time.LocalDateTime;

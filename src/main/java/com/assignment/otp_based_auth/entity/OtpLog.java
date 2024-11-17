@@ -1,3 +1,4 @@
+// Table to store the otp logs sent to the mobile numbers.
 package com.assignment.otp_based_auth.entity;
 
 import jakarta.persistence.*;

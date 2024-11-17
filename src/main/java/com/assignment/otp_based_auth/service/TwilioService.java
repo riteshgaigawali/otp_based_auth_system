@@ -1,26 +1,28 @@
+// This class is responsible for sending the sms to the provided mobile numbers.
 package com.assignment.otp_based_auth.service;
 
+import com.assignment.otp_based_auth.config.TwilioConfiguration;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TwilioService {
 
-    private String accountSid = "AC928abb9a35cb79e5944f714d0052d189";
-
-    private String authToken = "41b4b0f07141c0666b19a8d758a6af9f";
-
-    private String fromPhoneNumber = "+17069404038";
+    // Get Twilio credentials.
+    @Autowired
+    TwilioConfiguration twilioConfiguration;
 
     public void sendSms(String toPhoneNumber, String msg) {
         // Initialize Twilio with credentials
-        Twilio.init(accountSid, authToken);
+        Twilio.init(twilioConfiguration.getAccountSid(), twilioConfiguration.getAuthToken());
 
         // Send the SMS
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber(toPhoneNumber), // To
-                new com.twilio.type.PhoneNumber(fromPhoneNumber), // From
+                new com.twilio.type.PhoneNumber(twilioConfiguration.getFromPhoneNumber()), // From
                 msg // Message content
         ).create();
 

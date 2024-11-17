@@ -1,3 +1,4 @@
+//Configuration class for third-party SMS service Twilio. 
 package com.assignment.otp_based_auth.config;
 
 import org.springframework.context.annotation.Configuration;

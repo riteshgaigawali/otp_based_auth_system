@@ -7,6 +7,7 @@ import com.assignment.otp_based_auth.entity.User;
 import com.assignment.otp_based_auth.service.UserService;
 import com.assignment.otp_based_auth.utility.DeviceFingerprintFilter;
 
+// End-point for user registration.
 @RestController
 @RequestMapping("/api/register")
 public class RegistrationController {
@@ -16,10 +17,11 @@ public class RegistrationController {
     @Autowired
     DeviceFingerprintFilter deviceFingerprintFilter;
 
-    // Register user
     @PostMapping
     public User registerUser(@RequestBody User user) {
+        // Call getFingerprintString method from DeviceFingerprintFilter.
         user.setDeviceFingerprint(deviceFingerprintFilter.getFingerprintString());
+        // Call the registerUser method from UserService.
         return userService.registerUser(user); // Pass the entire user object
     }
 }

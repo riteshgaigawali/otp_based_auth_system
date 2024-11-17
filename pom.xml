@@ -14,7 +14,7 @@
     <artifactId>otp_based_auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>otp_based_auth</name>
-    <description>Demo project for Spring Boot.</description>
+    <description>A project for demonstrating otp_based_authentication of user.</description>
     <url/>
     
     <properties>
