@@ -1,4 +1,3 @@
-
 # OTP-Based Authentication System
 
 ## Overview
@@ -25,16 +24,19 @@ This project implements a secure OTP (One-Time Password) based authentication sy
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/riteshgaigawali/otp_based_auth_system.git
    ```
 
 2. Navigate to the project directory:
+
    ```bash
    cd otp_based_auth_system
    ```
 
 3. Set up your MySQL database and update the database configurations in the `application.properties` file:
+
    ```properties
    spring.datasource.url=jdbc:mysql://localhost:3306/otp_auth_db
    spring.datasource.username=root
@@ -42,11 +44,13 @@ This project implements a secure OTP (One-Time Password) based authentication sy
    ```
 
 4. Install the necessary dependencies via Maven:
+
    ```bash
    mvn clean install
    ```
 
 5. Run the application:
+
    ```bash
    mvn spring-boot:run
    ```
@@ -61,25 +65,27 @@ This project implements a secure OTP (One-Time Password) based authentication sy
 - **Description**: Registers a new user by providing their name, mobile number, address, and date of birth. The system will generate a unique device fingerprint for each user during registration.
 
 #### Request Body:
+
 ```json
 {
-    "name": "John Doe",
-    "mobileNumber": "+14155552671",
-    "address": "123 Main Street, New York, NY",
-    "dob": "1990-10-15"
+  "name": "John Doe",
+  "mobileNumber": "+14155552671",
+  "address": "123 Main Street, New York, NY",
+  "dob": "1990-10-15"
 }
 ```
 
 #### Response:
+
 ```json
 {
-    "id": 10,
-    "name": "John Doe",
-    "mobileNumber": "+14155552671",
-    "address": "123 Main Street, New York, NY",
-    "dob": "1990-10-15",
-    "createdAt": "2024-11-17T16:00:45.123456",
-    "deviceFingerprint": "d21a7d8f214cb451bc03b72ac34ff342"
+  "id": 10,
+  "name": "John Doe",
+  "mobileNumber": "+14155552671",
+  "address": "123 Main Street, New York, NY",
+  "dob": "1990-10-15",
+  "createdAt": "2024-11-17T16:00:45.123456",
+  "deviceFingerprint": "d21a7d8f214cb451bc03b72ac34ff342"
 }
 ```
 
@@ -94,16 +100,18 @@ This project implements a secure OTP (One-Time Password) based authentication sy
 - **Description**: Generates and sends an OTP to the mobile number associated with the user’s account.
 
 #### Request Body:
+
 ```json
 {
-    "mobileNumber": "+14155552671"
+  "mobileNumber": "+14155552671"
 }
 ```
 
 #### Response:
+
 ```json
 {
-    "message": "OTP has been sent to +14155552671."
+  "message": "OTP has been sent to +14155552671."
 }
 ```
 
@@ -118,21 +126,25 @@ This project implements a secure OTP (One-Time Password) based authentication sy
 - **Description**: Validates the OTP entered by the user to allow login.
 
 #### Request Body (Content-Type: `x-www-form-urlencoded`):
+
 - **Key**: `mobileNumber`
 - **Value**: `+14155552671`
 - **Key**: `otp`
 - **Value**: `823745`
 
 #### Response:
+
 ```json
 {
-    "message": "Invalid OTP !"
+  "message": "Invalid OTP !"
 }
 ```
+
 or
+
 ```json
 {
-    "message": "Log In Successful !"
+  "message": "Log In Successful !"
 }
 ```
 
@@ -148,19 +160,23 @@ or
 - **Description**: Allows users to log in by providing their mobile number. If an OTP has already been sent, it will inform the user; otherwise, an OTP will be sent to the provided number.
 
 #### Request Body (Content-Type: `x-www-form-urlencoded`):
+
 - **Key**: `mobileNumber`
 - **Value**: `+14155552671`
 
 #### Response:
+
 ```json
 {
-    "message": "Otp already sent, if not received try resend-otp !"
+  "message": "Otp already sent, if not received try resend-otp !"
 }
 ```
+
 or
+
 ```json
 {
-    "message": "Otp sent to : +14155552671"
+  "message": "Otp sent to : +14155552671"
 }
 ```
 
@@ -175,23 +191,26 @@ or
 - **Description**: Retrieves the user details for the specified mobile number. This endpoint returns the user’s information if the mobile number exists in the system.
 
 #### Request:
+
 No request body is required for this endpoint.
 
 #### Example URL:
+
 ```
 GET http://localhost:8080/api/auth/user/+14155552671
 ```
 
 #### Response:
+
 ```json
 {
-    "id": 10,
-    "name": "John Doe",
-    "mobileNumber": "+14155552671",
-    "address": "123 Main Street, New York, NY",
-    "dob": "1990-10-15",
-    "createdAt": "2024-11-17T16:00:45.123456",
-    "deviceFingerprint": "d21a7d8f214cb451bc03b72ac34ff342"
+  "id": 10,
+  "name": "John Doe",
+  "mobileNumber": "+14155552671",
+  "address": "123 Main Street, New York, NY",
+  "dob": "1990-10-15",
+  "createdAt": "2024-11-17T16:00:45.123456",
+  "deviceFingerprint": "d21a7d8f214cb451bc03b72ac34ff342"
 }
 ```
 
@@ -206,19 +225,23 @@ GET http://localhost:8080/api/auth/user/+14155552671
 - **Description**: Resends the OTP to the specified mobile number. If no OTP exists for the given mobile number, the system will notify the user.
 
 #### Request Body (Content-Type: `x-www-form-urlencoded`):
+
 - **Key**: `mobileNumber`
 - **Value**: `+14155552671`
 
 #### Response:
+
 ```json
 {
-    "message": "New Otp sent to +14155552671."
+  "message": "New Otp sent to +14155552671."
 }
 ```
+
 or
+
 ```json
 {
-    "message": "There is no existing OTP for +14155552671."
+  "message": "There is no existing OTP for +14155552671."
 }
 ```
 
@@ -232,37 +255,46 @@ or
 To test the API endpoints, you can use tools like [Postman](https://www.postman.com/) or [cURL].
 
 Example of testing user registration with Postman:
+
 - Set the request type to `POST` and enter the URL `http://localhost:8080/api/register`.
 - In the body, provide the necessary user data as a JSON object.
 - Send the request and check the response for successful registration.
 
 Example of testing user login (OTP request) with Postman:
+
 - Set the request type to `POST` and enter the URL `http://localhost:8080/api/auth/login`.
 - Set the `Content-Type` to `application/x-www-form-urlencoded`.
 - Provide the `mobileNumber` in the body.
 - Send the request and check the response for OTP status.
 
 Example of testing OTP validation with Postman:
+
 - Set the request type to `POST` and enter the URL `http://localhost:8080/api/auth/validate-otp`.
 - Set the `Content-Type` to `application/x-www-form-urlencoded`.
 - Provide the `mobileNumber` and `otp` in the body.
 - Send the request and check the response for OTP validation result.
 
 Example of testing user details retrieval with Postman:
+
 - Set the request type to `GET` and enter the URL `http://localhost:8080/api/auth/user/+14155552671`.
 - Send the request and check the response for the user’s details.
 
 Example of testing OTP resend with Postman:
+
 - Set the request type to `POST` and enter the URL `http://localhost:8080/api/auth/resend-otp`.
 - Set the `Content-Type` to `application/x-www-form-urlencoded`.
 - Provide the `mobileNumber` in the body.
 - Send the request and check the response for OTP resend status.
 
+## Credits
+
+Twilio: This project leverages Twilio’s SMS service for secure and reliable OTP delivery. For more information, visit Twilio's official website.
+
 ## Contact
 
 If you have any questions
 
- or feedback, feel free to reach out to me at:
+or feedback, feel free to reach out to me at:
 
 - **Email**: [gaygawaliritesh@gmail.com](mailto:gaygawaliritesh@gmail.com)
 
