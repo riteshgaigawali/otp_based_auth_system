@@ -16,15 +16,23 @@ public class OtpService {
     private OtpLogRepository otpLogRepository;
 
     public String generateOtp(String mobileNumber) {
-        String otp = String.valueOf(new Random().nextInt(999999));
-        OtpLog otpLog = new OtpLog();
-        otpLog.setMobileNumber(mobileNumber);
-        otpLog.setOtp(otp);
-        otpLog.setCreatedAt(LocalDateTime.now());
-        otpLog.setExpiryTime(LocalDateTime.now().plusMinutes(5));
-        otpLog.setStatus("ACTIVE");
-        otpLogRepository.save(otpLog);
-        return otp;
+
+        // Find the active OTP for the mobile number
+        Optional<OtpLog> existingOtpLog = otpLogRepository.findByMobileNumberAndStatus(mobileNumber, "ACTIVE");
+
+        if (!existingOtpLog.isPresent()) {
+            String otp = String.valueOf(new Random().nextInt(999999));
+            OtpLog otpLog = new OtpLog();
+            otpLog.setMobileNumber(mobileNumber);
+            otpLog.setOtp(otp);
+            otpLog.setCreatedAt(LocalDateTime.now());
+            otpLog.setExpiryTime(LocalDateTime.now().plusMinutes(5));
+            otpLog.setStatus("ACTIVE");
+            otpLogRepository.save(otpLog);
+            return otp;
+        } else {
+            return "";
+        }
     }
 
     public boolean validateOtp(String mobileNumber, String otp) {

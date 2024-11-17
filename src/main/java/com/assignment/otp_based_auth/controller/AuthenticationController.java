@@ -26,14 +26,14 @@ public class AuthenticationController {
     private TwilioService twilioService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginWithOtp(@RequestParam String mobileNumber, HttpServletRequest request) {
+    public ResponseEntity<?> loginWithOtp(@RequestParam String mobileNumber, HttpServletRequest request) {
 
         // Get the user and check fingerprint
         User user = userService.getUserDetails(mobileNumber);
         String currentFingerprint = DeviceFingerprintUtil.generateFingerprint(request);
 
         if (!currentFingerprint.equals(user.getDeviceFingerprint())) {
-            // Optionally log or notify about the new device
+            // Notify user about the new device
             twilioService.sendSms(mobileNumber, "Alert! - New device detected for your account.");
             user.setDeviceFingerprint(currentFingerprint);
         }
@@ -41,10 +41,15 @@ public class AuthenticationController {
         // Generate OTP
         String otp = otpService.generateOtp(mobileNumber);
 
-        // Send OTP via Twilio
-        twilioService.sendSms(mobileNumber, "Your OTP is : " + otp);
+        if (otp != "") {
+            // Send OTP via Twilio
+            twilioService.sendSms(mobileNumber, otp);
 
-        return ResponseEntity.ok("OTP sent to: " + mobileNumber); // Simulating the behavior.
+            return ResponseEntity.ok(Collections.singletonMap("message", "OTP sent to: " + mobileNumber));
+        }
+
+        return ResponseEntity
+                .ok(Collections.singletonMap("message", "Otp already sent, if not received try resend-otp !"));
     }
 
     @PostMapping("/resend-otp")
